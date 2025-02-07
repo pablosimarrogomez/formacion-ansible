@@ -1,0 +1,33 @@
+services:
+  ansible-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.server
+    container_name: ansible-server
+    networks:
+      - ansible-net
+    ports:
+    - "2222:22"
+    volumes:
+      - ./ansible:/home/psimarro/ansible  # Mounts local ansible directory
+    tty: true
+
+  client1:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    container_name: ansible-client1
+    networks:
+      - ansible-net
+
+  client2:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
+    container_name: ansible-client2
+    networks:
+      - ansible-net
+
+networks:
+  ansible-net:
+    driver: bridge

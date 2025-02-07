@@ -1,0 +1,46 @@
+# Use Ubuntu 22.04 as the base image
+FROM ubuntu:22.04
+
+# Set environment variables to non-interactive to avoid prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies and Python 3.9
+RUN apt update && apt install -y \
+    software-properties-common \
+    passwd \
+    curl \
+    ca-certificates \
+    openssh-server \
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN add-apt-repository ppa:deadsnakes/ppa
+
+RUN apt install -y python3.9 python3.9-venv python3.9-dev
+
+# Ensure pip is installed
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3.9 get-pip.py && \
+    rm get-pip.py
+
+# Install Ansible via pip
+RUN python3.9 -m pip install ansible-core==2.13.6
+
+# Create a new user with a home directory and set password
+RUN useradd -m -s /bin/bash psimarro && echo "psimarro:password" | chpasswd && adduser psimarro sudo
+# Allow ansible user to run sudo without password
+RUN echo "psimarro ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+# Configure SSH to allow password authentication
+RUN mkdir /var/run/sshd
+RUN echo "psimarro:password" | chpasswd
+RUN sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo "root:password" | chpasswd
+
+WORKDIR /home/psimarro
+# Expose SSH port (default is 22)
+EXPOSE 22
+
+# Start the SSH service and run Ansible
+CMD ["/usr/sbin/sshd", "-D"]

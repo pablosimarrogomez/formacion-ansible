@@ -1,0 +1,12 @@
+---
+- name: Crear un usuario usando variables locales
+  hosts: all
+  vars:
+    usuario: "ansible_user"
+    directorio_home: "/home/ansible_user"
+  tasks:
+    - name: Crear usuario con variable
+      user:
+        name: "{{usuario}}"
+        home: "{{directorio_home}}"
+        state: present
