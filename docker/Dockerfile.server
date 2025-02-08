@@ -39,6 +39,23 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 RUN echo "root:password" | chpasswd
 
 WORKDIR /home/psimarro
+
+# Create .ssh directory and set correct permissions
+RUN mkdir -p /home/psimarro/.ssh && chmod 700 /home/psimarro/.ssh
+
+# Copy SSH keys from local machine into container
+COPY ssh-keys/id_rsa /home/psimarro/.ssh/id_rsa
+COPY ssh-keys/id_rsa.pub /home/psimarro/.ssh/id_rsa.pub
+
+# Copy WSL SSH public key (this needs to be available before building)
+COPY /home/psimarro/.ssh/id_rsa.pub /home/psimarro/.ssh/authorized_keys
+
+# Set correct permissions
+RUN chmod 600 /home/psimarro/.ssh/authorized_keys
+
+# Ensure correct permissions for private key
+RUN chmod 600 /home/psimarro/.ssh/id_rsa && chmod 644 /home/psimarro/.ssh/id_rsa.pub
+
 # Expose SSH port (default is 22)
 EXPOSE 22
 

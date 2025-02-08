@@ -19,10 +19,18 @@ RUN apt update && apt install -y \
     && echo "psimarro:password" | chpasswd \
     # Add user 'psimarro' to the sudo group
     && usermod -aG sudo psimarro \
-    # Allow root login via SSH
-    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
     # Allow password authentication via SSH
     && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+
+WORKDIR /home/psimarro
+
+RUN mkdir -p /home/psimarro/.ssh && chmod 700 /home/psimarro/.ssh
+
+# Copy SSH public key (this needs to be available before building)
+COPY ssh-keys/id_rsa.pub /home/psimarro/.ssh/authorized_keys
+
+# Set correct permissions
+RUN chmod 600 /home/psimarro/.ssh/authorized_keys
 
 # Expose SSH port
 EXPOSE 22
