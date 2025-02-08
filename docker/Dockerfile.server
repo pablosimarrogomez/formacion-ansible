@@ -28,32 +28,41 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
 RUN python3.9 -m pip install ansible-core==2.13.6
 
 # Create a new user with a home directory and set password
+# MODIFY USER
 RUN useradd -m -s /bin/bash psimarro && echo "psimarro:password" | chpasswd && adduser psimarro sudo
 # Allow ansible user to run sudo without password
+# MODIFY USER
 RUN echo "psimarro ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # Configure SSH to allow password authentication
 RUN mkdir /var/run/sshd
+# MODIFY USER
 RUN echo "psimarro:password" | chpasswd
 RUN sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN echo "root:password" | chpasswd
 
+# MODIFY USER
 WORKDIR /home/psimarro
 
 # Create .ssh directory and set correct permissions
+# MODIFY USER
 RUN mkdir -p /home/psimarro/.ssh && chmod 700 /home/psimarro/.ssh
 
-# Copy SSH keys from local machine into container
+# Copy SSH keys from local directory into container
+# MODIFY USER
 COPY ssh-keys/id_rsa /home/psimarro/.ssh/id_rsa
 COPY ssh-keys/id_rsa.pub /home/psimarro/.ssh/id_rsa.pub
 
 # Copy WSL SSH public key (this needs to be available before building)
+# MODIFY USER
 COPY /home/psimarro/.ssh/id_rsa.pub /home/psimarro/.ssh/authorized_keys
 
 # Set correct permissions
+# MODIFY USER
 RUN chmod 600 /home/psimarro/.ssh/authorized_keys
 
 # Ensure correct permissions for private key
+# MODIFY USER
 RUN chmod 600 /home/psimarro/.ssh/id_rsa && chmod 644 /home/psimarro/.ssh/id_rsa.pub
 
 # Expose SSH port (default is 22)

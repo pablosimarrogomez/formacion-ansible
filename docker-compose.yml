@@ -9,7 +9,7 @@ services:
     ports:
     - "2222:22"
     volumes:
-      - ./ansible:/home/psimarro/ansible  # Mounts local ansible directory
+      - ./ansible:/home/psimarro/ansible  # MODIFY USER
     tty: true
 
   client1:

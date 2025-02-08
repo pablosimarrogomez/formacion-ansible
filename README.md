@@ -17,19 +17,13 @@
   make down 
 ```
 (para parar los contenedores)
+```sh
+  make rebuild 
+```
+(para reiniciar toda la aplicacion incluido hacer un nuevo build)
+
 ## Sincronizacion directorio local con servidor
 El contenedor del servidor tiene montado el directorio ansible que esta en local, por lo que se sincronizaran sus contenidos. Es importante no cambiar de ruta este directorio.
 
 ## Configurar las conexiones ssh
-Es necesario ejecutar estos comandos dentro 
-Para configurar las conexiones ssh entre servidor y cliente que se usaran para ejecutar ansible:
-```sh
-ssh-keygen -t rsa -b 4096
-ssh-copy-id username@cliente1
-ssh-copy-id username@cliente2
-...
-```
-Para comprobar que ha funcionado:
-```sh
-ssh username@clienteX
-```
+Las conexiones ssh se configuran automaticamente al hacer docker build pero si queremos modificar el usuario con el que nos vamos a conectar y el que se va a crear en los dockers debemos cambiar este mismo en los dockerfiles y el docker-compose. Las lineas con el usuario por defecto (psimarro) estan marcadas con # MODIFY USER.
