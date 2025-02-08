@@ -8,7 +8,7 @@
  ```sh
   make build
   ```
- (solo es necesario ejecutarlo una vez, el resto de veces usaremos la imagen que hemo construido para no tener que reconfigurar las conexiones ssh cada vez)
+ (solo es necesario ejecutarlo una vez, el resto de veces usaremos la imagen que hemo construido con make up)
 ```sh
   make up 
 ```
