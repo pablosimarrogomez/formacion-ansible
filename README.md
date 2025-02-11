@@ -1,29 +1,35 @@
-# Guia para desplegar el entorno:
+# Guía para desplegar el entorno
+
 ## Requisitos:
-- Tener instalado docker y que el docker engine este funcionando.
-- En un sistema windows tener instalado WSL para que docker pueda funcionar con WSL por debajo.
+- Tener instalado Docker y que el Docker Engine esté funcionando.
+- En un sistema Windows, tener instalado WSL para que Docker pueda funcionar con WSL por debajo.
 
 ## Despliegue:
-- Desde la terminal en el directorio del proyecto donde se encuentra el Makefile ejecutar los siguientes comandos:
+- Desde la terminal, en el directorio del proyecto donde se encuentra el Makefile, ejecutar los siguientes comandos:
+
 ```sh
 make build
 ```
- (solo es necesario ejecutarlo una vez, el resto de veces usaremos la imagen que hemo construido con make up)
+(Solo es necesario ejecutarlo una vez, el resto de veces usaremos la imagen que hemos construido con `make up`.)
+
 ```sh
 make up 
 ```
-(para desplegar los contenedores)
+(Para desplegar los contenedores.)
+
 ```sh
 make down 
 ```
-(para parar los contenedores)
+(Para parar los contenedores.)
+
 ```sh
 make rebuild 
 ```
-(para reiniciar toda la aplicacion incluido hacer un nuevo build)
+(Para reiniciar toda la aplicación, incluyendo un nuevo `build`.)
 
-## Sincronizacion directorio local con servidor
-El contenedor del servidor tiene montado el directorio ansible que esta en local, por lo que se sincronizaran sus contenidos. Es importante no cambiar de ruta este directorio.
+## Sincronización del directorio local Ansible con el servidor
+El contenedor del servidor tiene montado el directorio Ansible que está en local, por lo que se sincronizarán sus contenidos. Es importante no cambiar de ruta este directorio, ya que es donde se guardará todo el trabajo que hagamos de manera permanente. El resto de cambios que hagamos en los Dockers son efímeros y volverán a los valores por defecto una vez paremos los contenedores.
 
-## Configurar las conexiones ssh
-Las conexiones ssh se configuran automaticamente al hacer docker build pero si queremos modificar el usuario con el que nos vamos a conectar y el que se va a crear en los dockers debemos cambiar este mismo en los dockerfiles y el docker-compose. Las lineas con el usuario por defecto (psimarro) estan marcadas con # MODIFY USER.
+## Configurar las conexiones SSH
+Las conexiones SSH se configuran automáticamente al hacer `docker build`, pero si queremos modificar el usuario con el que nos vamos a conectar y el que se va a crear en los Dockers, debemos cambiar este mismo en los `Dockerfiles` y el `docker-compose`. Las líneas con el usuario por defecto "psimarro" están marcadas con `# MODIFY USER`, y la contraseña está configurada por defecto como `"password"`.
+
