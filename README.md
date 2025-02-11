@@ -1,11 +1,11 @@
-# Guía para desplegar el entorno
+# Guía para desplegar el entorno de laboratorio de ansible
 
 ## Requisitos:
-- Tener instalado Docker y que el Docker Engine esté funcionando.
-- En un sistema Windows, tener instalado WSL para que Docker pueda funcionar con WSL por debajo.
+- Tener instalado [Docker](https://www.docker.com/products/docker-desktop/) y que el Docker Engine esté funcionando.
+- En un sistema Windows, tener instalado [WSL](https://docs.docker.com/desktop/features/wsl/) para que Docker pueda funcionar con WSL por debajo.
 
 ## Despliegue:
-- Desde la terminal, en el directorio del proyecto donde se encuentra el Makefile, ejecutar los siguientes comandos:
+Desde la terminal, en el directorio del proyecto donde se encuentra el Makefile, ejecutar los siguientes comandos:
 
 ```sh
 make build
@@ -42,3 +42,16 @@ Una vez desplegado el entorno con docker nos conectaremos via ssh o con la termi
 ansible all -m ping
 ```
 si aparece un mensaje de `SUCCESS` para ambos clientes nos podemos conectar contra ambos sin problema y mas adelante ejecutar los playbooks de ansible.
+
+## Añadir contenedores de clientes
+Si queremos hacer pruebas con más contenedores y grupos en nusestras pruebas de ansible podemos editar el `docker-compose` y añadir los clientes que queramos con el siguiente código yaml:
+```
+clientX:
+  build:
+    context: .
+    dockerfile: docker/Dockerfile.client
+  container_name: ansible-clientX
+  networks:
+    - ansible-net
+```
+También modificaremos en `ansible_config` el archivo `hosts` para incluir el nuevo cliente en nuestro inventory.
