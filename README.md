@@ -1,24 +1,24 @@
 # Guia para desplegar el entorno:
 ## Requisitos:
 - Tener instalado docker y que el docker engine este funcionando.
-- En un sistema windows tener instalado WSL para que docker pueda funcionar.
+- En un sistema windows tener instalado WSL para que docker pueda funcionar con WSL por debajo.
 
 ## Despliegue:
 - Desde la terminal en el directorio del proyecto donde se encuentra el Makefile ejecutar los siguientes comandos:
- ```sh
-  make build
-  ```
+```sh
+make build
+```
  (solo es necesario ejecutarlo una vez, el resto de veces usaremos la imagen que hemo construido con make up)
 ```sh
-  make up 
+make up 
 ```
 (para desplegar los contenedores)
 ```sh
-  make down 
+make down 
 ```
 (para parar los contenedores)
 ```sh
-  make rebuild 
+make rebuild 
 ```
 (para reiniciar toda la aplicacion incluido hacer un nuevo build)
 

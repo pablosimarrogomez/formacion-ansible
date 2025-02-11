@@ -42,6 +42,7 @@ RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/
 RUN echo "root:password" | chpasswd
 
 # MODIFY USER
+USER psimarro
 WORKDIR /home/psimarro
 
 # Create .ssh directory and set correct permissions
@@ -53,19 +54,17 @@ RUN mkdir -p /home/psimarro/.ssh && chmod 700 /home/psimarro/.ssh
 COPY ssh-keys/id_rsa /home/psimarro/.ssh/id_rsa
 COPY ssh-keys/id_rsa.pub /home/psimarro/.ssh/id_rsa.pub
 
-# Copy WSL SSH public key (this needs to be available before building)
-# MODIFY USER
-COPY /home/psimarro/.ssh/id_rsa.pub /home/psimarro/.ssh/authorized_keys
+# Disable SSH host key checking by modifying the SSH config
+RUN echo "Host *" >> /home/psimarro/.ssh/config && \
+    echo "    StrictHostKeyChecking no" >> /home/psimarro/.ssh/config && \
+    echo "    UserKnownHostsFile=/dev/null" >> /home/psimarro/.ssh/config
 
-# Set correct permissions
-# MODIFY USER
-RUN chmod 600 /home/psimarro/.ssh/authorized_keys
+USER root
 
 # Ensure correct permissions for private key
 # MODIFY USER
 RUN chmod 600 /home/psimarro/.ssh/id_rsa && chmod 644 /home/psimarro/.ssh/id_rsa.pub
 
-# Expose SSH port (default is 22)
 EXPOSE 22
 
 # Start the SSH service and run Ansible

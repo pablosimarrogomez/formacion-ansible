@@ -12,6 +12,7 @@ generate-keys:
 	fi
 
 build: generate-keys
+	@mkdir -p ansible
 	docker-compose build
 
 up:

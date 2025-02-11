@@ -25,6 +25,7 @@ RUN apt update && apt install -y \
     && echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 
 # MODIFY USER
+USER psimarro
 WORKDIR /home/psimarro
 
 # MODIFY USER
@@ -34,10 +35,7 @@ RUN mkdir -p /home/psimarro/.ssh && chmod 700 /home/psimarro/.ssh
 # MODIFY USER
 COPY ssh-keys/id_rsa.pub /home/psimarro/.ssh/authorized_keys
 
-# Set correct permissions
-# MODIFY USER
-RUN chmod 600 /home/psimarro/.ssh/authorized_keys
-
+USER root
 # Expose SSH port
 EXPOSE 22
 
