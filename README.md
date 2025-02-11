@@ -27,8 +27,11 @@ make rebuild
 ```
 (Para reiniciar toda la aplicación, incluyendo un nuevo `build`.)
 
-## Sincronización del directorio local Ansible con el servidor
+## Sincronización del directorio local ansible con el servidor
 El contenedor del servidor tiene montado el directorio Ansible que está en local, por lo que se sincronizarán sus contenidos. Es importante no cambiar de ruta este directorio, ya que es donde se guardará todo el trabajo que hagamos de manera permanente. El resto de cambios que hagamos en los Dockers son efímeros y volverán a los valores por defecto una vez paremos los contenedores.
+
+## Sincronización del directorio local ansible_config con el servidor
+Al igual que en el caso anterior las configuraciones para ansible se montan en otro volumen sincronizado con el directorio local `ansible_config`. Dentro hay un ejemplo de configuración por defecto. En este caso en la ip de los clientes podemos poner el nombre de los contenedores ya que docker resuelve internamente sus ip's en base a estos nombres.
 
 ## Configurar las conexiones SSH
 Las conexiones SSH se configuran automáticamente al hacer `docker build`, pero si queremos modificar el usuario con el que nos vamos a conectar y el que se va a crear en los Dockers, debemos cambiar este mismo en los `Dockerfiles` y el `docker-compose`. Las líneas con el usuario por defecto "psimarro" están marcadas con `# MODIFY USER`, y la contraseña está configurada por defecto como `"password"`.

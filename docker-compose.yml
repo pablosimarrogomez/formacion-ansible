@@ -10,6 +10,7 @@ services:
     - "2222:22"
     volumes:
       - ./ansible:/home/psimarro/ansible  # MODIFY USER
+      - ./ansible_config:/etc/ansible  # New volume for ansible.cfg
     tty: true
 
   client1:
