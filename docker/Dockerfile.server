@@ -61,9 +61,10 @@ RUN echo "Host *" >> /home/psimarro/.ssh/config && \
 
 USER root
 
-# Ensure correct permissions for private key
-# MODIFY USER
-RUN chmod 600 /home/psimarro/.ssh/id_rsa && chmod 644 /home/psimarro/.ssh/id_rsa.pub
+# Fix permissions
+RUN chown psimarro:psimarro /home/psimarro/.ssh/id_rsa /home/psimarro/.ssh/id_rsa.pub && \
+    chmod 600 /home/psimarro/.ssh/id_rsa && \
+    chmod 644 /home/psimarro/.ssh/id_rsa.pub
 
 EXPOSE 22
 
