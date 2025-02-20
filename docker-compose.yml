@@ -6,6 +6,7 @@ services:
       args:
         SERVER_USER_NAME: ${SERVER_USER_NAME}
         SERVER_USER_PASSWORD: ${SERVER_USER_PASSWORD}
+        CLIENT_USER_NAME: ${CLIENT_USER_NAME}
     hostname: ansible-server
     container_name: ansible-server
     networks:
