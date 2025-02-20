@@ -3,6 +3,7 @@ FROM ubuntu:22.04
 
 # Define the build arguments
 ARG SERVER_USER_NAME
+ARG CLIENT_USER_NAME
 ARG SERVER_USER_PASSWORD
 
 # Set environment variables to non-interactive to avoid prompts during installation
@@ -41,6 +42,9 @@ RUN python3.9 -m pip install ansible-core==2.13.6
 # Configure SSH to allow password authentication
 RUN mkdir /var/run/sshd
 RUN sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Add env variable used in ansible_config
+RUN echo "CLIENT_USER_NAME=$CLIENT_USER_NAME" >> /etc/environment
 
 USER $SERVER_USER_NAME
 WORKDIR /home/$SERVER_USER_NAME

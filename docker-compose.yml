@@ -15,8 +15,6 @@ services:
     volumes:
       - ./ansible:/home/${SERVER_USER_NAME}/ansible
       - ./ansible_config:/etc/ansible  # New volume for ansible.cfg
-    environment:
-      - CLIENT_USER_NAME=${CLIENT_USER_NAME}
     tty: true
 
   client1:
@@ -36,7 +34,7 @@ services:
       dockerfile: docker/Dockerfile.client
       args:
         CLIENT_USER_NAME: ${CLIENT_USER_NAME}
-        hostname: ansible-client2
+    hostname: ansible-client2
     container_name: ansible-client2
     networks:
       - ansible-net
