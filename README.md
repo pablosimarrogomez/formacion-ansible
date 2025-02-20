@@ -47,6 +47,7 @@ clientX:
       dockerfile: docker/Dockerfile.client
       args:
         CLIENT_USER_NAME: ${CLIENT_USER_NAME}
+    hostname: ansible-clientX
     container_name: ansible-clientX
     networks:
       - ansible-net

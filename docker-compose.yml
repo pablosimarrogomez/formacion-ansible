@@ -6,6 +6,7 @@ services:
       args:
         SERVER_USER_NAME: ${SERVER_USER_NAME}
         SERVER_USER_PASSWORD: ${SERVER_USER_PASSWORD}
+    hostname: ansible-server
     container_name: ansible-server
     networks:
       - ansible-net
@@ -24,6 +25,7 @@ services:
       dockerfile: docker/Dockerfile.client
       args:
         CLIENT_USER_NAME: ${CLIENT_USER_NAME}
+    hostname: ansible-client1
     container_name: ansible-client1
     networks:
       - ansible-net
@@ -34,6 +36,7 @@ services:
       dockerfile: docker/Dockerfile.client
       args:
         CLIENT_USER_NAME: ${CLIENT_USER_NAME}
+        hostname: ansible-client2
     container_name: ansible-client2
     networks:
       - ansible-net
