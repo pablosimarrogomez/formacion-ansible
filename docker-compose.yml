@@ -3,20 +3,27 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.server
+      args:
+        SERVER_USER_NAME: ${SERVER_USER_NAME}
+        SERVER_USER_PASSWORD: ${SERVER_USER_PASSWORD}
     container_name: ansible-server
     networks:
       - ansible-net
     ports:
     - "2222:22"
     volumes:
-      - ./ansible:/home/psimarro/ansible  # MODIFY USER
+      - ./ansible:/home/${SERVER_USER_NAME}/ansible
       - ./ansible_config:/etc/ansible  # New volume for ansible.cfg
+    environment:
+      - CLIENT_USER_NAME=${CLIENT_USER_NAME}
     tty: true
 
   client1:
     build:
       context: .
       dockerfile: docker/Dockerfile.client
+      args:
+        CLIENT_USER_NAME: ${CLIENT_USER_NAME}
     container_name: ansible-client1
     networks:
       - ansible-net
@@ -25,6 +32,8 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.client
+      args:
+        CLIENT_USER_NAME: ${CLIENT_USER_NAME}
     container_name: ansible-client2
     networks:
       - ansible-net
